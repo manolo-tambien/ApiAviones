@@ -9,7 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Se obtiene la cadena de conexion llamada "ConnectionString" del archivo appsettings.json
 builder.Services.AddDbContext<ApplicationDBContext>(opciones =>
 {
-    opciones.UseSqlServer(builder.Configuration.GetConnectionString("ConnectionString"));
+    opciones.UseSqlServer(builder.Configuration.GetConnectionString("ConexionSql"));
 });
 
 builder.Services.AddControllers();
