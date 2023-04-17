@@ -20,7 +20,6 @@
     <Folder Include="Controllers\" />
     <Folder Include="Modelos\DTO\" />
     <Folder Include="AvionesMapper\" />
-    <Folder Include="Repositorio\IRepositorio\" />
   </ItemGroup>
 
 </Project>
