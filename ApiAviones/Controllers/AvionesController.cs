@@ -1,4 +1,5 @@
-﻿using ApiAviones.Modelos.DTO;
+﻿using ApiAviones.Modelos;
+using ApiAviones.Modelos.DTO;
 using ApiAviones.Repositorio.IRepositorio;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
@@ -65,6 +66,49 @@ namespace ApiAviones.Controllers
             }
             var itemAvionDTO = _mapper.Map<AvionDTO>(itemAvion);
             return Ok(itemAvionDTO);
+        }
+
+        [HttpPost]
+        [ProducesResponseType(201, Type= typeof(AvionDTO))]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public IActionResult CrearAvion([FromBody] CrearAvionDTO crearAvionDTO) // Se le especifica que del [FromBody] se va a obtener el modelo crearAvionDTO
+        {
+            // * Se valida el modelo (si no es valido)
+            // ------------
+            // * El ModelState controla que la clase CrearAvionDTO cumpla con los reuqerimientos
+            // que se le especificaron con los decoradores [Required] y [MaxLength]
+            if (!ModelState.IsValid) 
+            {
+                return BadRequest(ModelState); // Responde el método con un BadRequest si no es válido el modelo "CrearAvionDTO" que está siendo enviado.
+            }
+
+            if (crearAvionDTO == null) 
+            {
+                return BadRequest(ModelState);
+            }
+
+            // * Se valida el parametro enviado "crearAvionDTO.Nombre" al método "ExisteAvion" para saber si ya hay ese 
+            // nombre en la tabla de la base de datos.
+            if (_avionRepo.ExisteAvion(crearAvionDTO.Nombre))
+            {
+                ModelState.AddModelError("", "El avión ya existe");
+                return StatusCode(404, ModelState);
+            }
+            
+
+            var avion = _mapper.Map<Avion>(crearAvionDTO);
+
+            // Si no se pudo crear la categoría 
+            if (!_avionRepo.CrearAvion(avion))
+            {
+                ModelState.AddModelError("", $"Algo salió mal guardando el registro {avion.Nombre}.");
+                return StatusCode(500, ModelState);
+            }
+
+            // Si sí se pudo crear se retorna el avion mandado
+            return CreatedAtRoute("GetAvion", new { avionId = avion.Id }, avion);
         }
     }
 }
