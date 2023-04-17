@@ -3,6 +3,7 @@ using ApiAviones.Modelos.DTO;
 using ApiAviones.Repositorio.IRepositorio;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.FileProviders;
 
 namespace ApiAviones.Controllers
 {
@@ -68,6 +69,11 @@ namespace ApiAviones.Controllers
             return Ok(itemAvionDTO);
         }
 
+        /// <summary>
+        /// Crea un registro nuevo en la tabla Avion
+        /// </summary>
+        /// <param name="crearAvionDTO">Modelo requerido por este método para ser insertado en la tabla Avion</param>
+        /// <returns></returns>
         [HttpPost]
         [ProducesResponseType(201, Type= typeof(AvionDTO))]
         [ProducesResponseType(StatusCodes.Status201Created)]
@@ -109,6 +115,46 @@ namespace ApiAviones.Controllers
 
             // Si sí se pudo crear se retorna el avion mandado
             return CreatedAtRoute("GetAvion", new { avionId = avion.Id }, avion);
+        }
+
+        /// <summary>
+        /// Actualiza específicamente los valores que se desean
+        /// </summary>
+        /// <param name="crearAvionDTO"></param>
+        /// <returns></returns>
+        [HttpPatch("{avionId:int}", Name = "ActualizarPatchAvion")]
+        [ProducesResponseType(201, Type = typeof(AvionDTO))]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]        
+        public IActionResult ActualizarPatchAvion(int avionId, [FromBody] AvionDTO avionDTO) // Requiere "AvionDTO" porque si cuenta con el parametro avionId que es con el cual se va a actualizar en la base de datos.
+        {
+            // * Se valida el modelo (si no es valido)
+            // ------------
+            // * El ModelState controla que la clase CrearAvionDTO cumpla con los reuqerimientos
+            // que se le especificaron con los decoradores [Required] y [MaxLength]
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState); // Responde el método con un BadRequest si no es válido el modelo "AvionDTO" que está siendo enviado.
+            }
+
+            // Valida que no venga nulo el avion DTO y que solo tenga el avionId correcto
+            if (avionDTO == null || avionId != avionDTO.Id )
+            {
+                return BadRequest(ModelState);
+            }
+
+
+            var avion = _mapper.Map<Avion>(avionDTO);
+
+            // Si no se pudo crear la categoría 
+            if (!_avionRepo.ActualizarAvion(avion))
+            {
+                ModelState.AddModelError("", $"Algo salió mal actualizando el registro {avion.Nombre}.");
+                return StatusCode(500, ModelState);
+            }
+
+            // Si sí se pudo crear se retorna el avion mandado
+            return NoContent();
         }
     }
 }
