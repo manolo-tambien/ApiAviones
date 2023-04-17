@@ -18,7 +18,6 @@
 
   <ItemGroup>
     <Folder Include="Controllers\" />
-    <Folder Include="Modelos\DTO\" />
     <Folder Include="AvionesMapper\" />
   </ItemGroup>
 
