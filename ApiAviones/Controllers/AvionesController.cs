@@ -52,7 +52,7 @@ namespace ApiAviones.Controllers
         /// Obtiene un solo avión enviandole solamente el avionId que se desea buscar.
         /// </summary>
         /// <returns>Regresa un avion en base al avion buscado</returns>
-        [HttpGet("{avionId:int}", Name = "GetCategoria")] // Se especifica el verbo, en este caso es el verbo 'Get'
+        [HttpGet("{avionId:int}", Name = "GetAvion")] // Se especifica el verbo, en este caso es el verbo 'Get'
         [ProducesResponseType(StatusCodes.Status200OK)] // Se le indica que podría responder con un status code 200 OK
         [ProducesResponseType(StatusCodes.Status403Forbidden)] // Se le indica que podría responder con un status code 403 Forbidden
         [ProducesResponseType(StatusCodes.Status400BadRequest)] // Se le indica con este decorador que podría responder con status code 400 Bad Request
