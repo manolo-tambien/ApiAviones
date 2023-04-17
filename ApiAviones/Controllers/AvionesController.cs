@@ -156,5 +156,39 @@ namespace ApiAviones.Controllers
             // Si sí se pudo crear se retorna el avion mandado
             return NoContent();
         }
+
+        /// <summary>
+        /// Elimina un avion de la tabla Avion
+        /// </summary>
+        /// <param name="avionId"></param>
+        /// <param name="avionDTO"></param>
+        /// <returns></returns>
+        [HttpDelete("{avionId:int}", Name = "BorrarAvion")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)] // En caso de que no se encuentre el avión con ese ID 
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public IActionResult BorrarAvion(int avionId) // Requiere "AvionDTO" porque si cuenta con el parametro avionId que es con el cual se va a actualizar en la base de datos.
+        {
+
+            // * Si no existe no podemos hacer nada porque se está validando con "ExisteAvion"
+            if (!_avionRepo.ExisteAvion(avionId))
+            {
+                return NotFound();
+            }
+
+            // Va y busca en la tabla Avion el avion por el atributo avionId
+            var avion = _avionRepo.GetAvion(avionId);
+
+            // Si no se pudo crear la categoría 
+            if (!_avionRepo.BorrarAvion(avion))
+            {
+                ModelState.AddModelError("", $"Algo salió mal borrando el registro {avion.Nombre}.");
+                return StatusCode(500, ModelState);
+            }
+
+            // Si sí se pudo crear se retorna el avion mandado
+            return NoContent();
+        }
     }
 }
