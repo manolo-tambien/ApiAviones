@@ -32,7 +32,9 @@ namespace ApiAviones.Controllers
         /// Obtiene el listado de todos los aviones de la tabla Aviones
         /// </summary>
         /// <returns>Regresa el listado de todos los aviones de la tabla Aviones</returns>
-        [HttpGet]
+        [HttpGet] // Se especifica el verbo, en este caso es el verbo 'Get'
+        [ProducesResponseType(StatusCodes.Status200OK)] // Se le indica que podría responder con un status code 200 OK
+        [ProducesResponseType(StatusCodes.Status403Forbidden)] // Se le indica que podría responder con un status code 403 Forbidden
         public IActionResult GetAviones()
         {
             var listaAviones = _avionRepo.GetAviones();
