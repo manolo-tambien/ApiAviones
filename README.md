@@ -55,5 +55,9 @@ Si todo marcha bien ejecutar la migración:
 dotnet ef migrations add NOMBRE_DE_LA_MIGRACION
 dotnet ef database update
 ```
+En caso de que falle la autenticación usar el siguiente formato para la cadena de conexión: 
+```
+"Server=localhost,1433;Database=ApiAviones;User ID=sa;Password=MyPass@word;TrustServerCertificate=true;MultipleActiveResultSets=true;"
+```
 
 Listo, la base de datos y las tablas fueron creadas.
