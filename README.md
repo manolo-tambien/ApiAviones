@@ -27,6 +27,7 @@ Abrir el administrador de paquetes para la solucion en Herramientas > Administra
 
  Despues ejecutar el siguiente comandos en la terminal y esperar a que termine:
 ```
+cd ApiAviones
 add-migration CreacionTablaAvion    
 ```
 Despues ejecutar el siguiente comando en la terminal y esperar a que termine:
