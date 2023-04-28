@@ -22,7 +22,9 @@ docker run -e "ACCEPT_EULA=1" -e "MSSQL_SA_PASSWORD=MyPass@word" -e "MSSQL_PID=D
 En el archivo appsettings.json buscar la variable "ConexionSql" y escribir el nombre de tu servidor SQL
 
 # 3.- Migracion de la base de datos
+Se presentan dos métodos para correr la migración, la primera con equipos windows y la seguda para MacOS Apple Sillicon:
 
+## 3.1 Instrucciones para equipo con Windows
 Abrir el administrador de paquetes para la solucion en Herramientas > Administrador de paquetes NuGet > Consola del Administrador de paquetes
 
  Despues ejecutar el siguiente comandos en la terminal y esperar a que termine:
@@ -30,7 +32,28 @@ Abrir el administrador de paquetes para la solucion en Herramientas > Administra
 cd ApiAviones
 add-migration CreacionTablaAvion    
 ```
-Despues ejecutar el siguiente comando en la terminal y esperar a que termine:
+Despues ejecutar el siguiente comando en la terminal y esperar a que termine. Hará un push a la base de datos con lo que creó:
 ```
 update-database
 ```
+## 3.2 Insttrucciones para equipos con (MacOS Apple Sillicon)
+Instalar primero dotnet-ef en la terminal y en el directorio del proyecto:
+```
+dotnet tool install --global dotnet-ef
+```
+Agregar el directorio de las herramientas "dotnet-ef" al path de variables
+```
+export PATH="$PATH:/Users/'your user folder'/.dotnet/tools"
+```
+Ejecutar los siguientes comandos:
+````
+dotnet restore
+dotnet ef
+```
+Si todo marcha bien ejecutar la migración:
+```
+dotnet ef migrations add NOMBRE_DE_LA_MIGRACION
+dotnet ef database update
+```
+
+Listo, la base de datos y las tablas fueron creadas.
