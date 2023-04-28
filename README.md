@@ -46,7 +46,7 @@ Agregar el directorio de las herramientas "dotnet-ef" al path de variables
 export PATH="$PATH:/Users/'your user folder'/.dotnet/tools"
 ```
 Ejecutar los siguientes comandos:
-````
+```
 dotnet restore
 dotnet ef
 ```
