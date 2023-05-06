@@ -12,5 +12,7 @@ namespace ApiAviones.Data
 
         // Conforme se van creando tablas se agregan aquí las clases de los modelos.
         public DbSet<Avion> Avion { get; set; }
+
+        public DbSet<Aeropuerto> Aeropuerto { get; set; }
     }
 }
