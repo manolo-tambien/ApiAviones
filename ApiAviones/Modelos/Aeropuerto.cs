@@ -9,10 +9,10 @@ namespace ApiAviones.Modelos
         [Key]
         public int Id { get; set; }
 
-        [Required(ErrorMessage = "El nombre del aeropuerto es requerido")]
+        
         public string Nombre { get; set; }
 
-        [Required(ErrorMessage = "La cantidad de aforo es obligatoria.")]
+        
         public string Aforo { get; set; }
 
         public DateTime FechaDeCreacion { get; set; }
