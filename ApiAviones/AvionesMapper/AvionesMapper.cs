@@ -11,6 +11,8 @@ namespace ApiAviones.AvionesMapper
         {
             CreateMap<Avion, AvionDTO>().ReverseMap();
             CreateMap<Avion, CrearAvionDTO>().ReverseMap();
+
+            CreateMap<Aeropuerto, AeropuertoDTO>().ReverseMap();
         }
     }
 }
